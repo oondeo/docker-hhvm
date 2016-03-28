@@ -7,12 +7,12 @@ RUN echo deb http://dl.hhvm.com/debian jessie main | tee /etc/apt/sources.list.d
 
 RUN apt-get clean && \
     apt-get update && \
-    apt-get install -y libgmp10 hhvm && \
+    apt-get install -y libgmp10 hhvm wget && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install php tools (composer / phpunit)
 RUN cd $HOME && \
-    wget http://getcomposer.org/composer.phar && \
+    wget https://getcomposer.org/composer.phar && \
     chmod +x composer.phar && \
     mv composer.phar /usr/local/bin/composer && \
     wget https://phar.phpunit.de/phpunit.phar && \
