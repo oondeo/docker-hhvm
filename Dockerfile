@@ -29,13 +29,13 @@ RUN mkdir -p /var/www /var/run/hhvm /var/lib/hhvm /var/log/hhvm && \
 VOLUME [ "/var/www","/var/lib/hhvm/sessions" ]
 
 
-USER www-data
+#USER www-data
 
 ENV PORT 9000
 ENV DEVELOPMENT "false"
 ENV ROOT "/var/www"
 
-EXPOSE $PORT
+EXPOSE 9000 8080 9001
 
 CMD ["/start.sh"]
 
