@@ -7,7 +7,7 @@ RUN echo deb http://dl.hhvm.com/debian jessie main | tee /etc/apt/sources.list.d
 
 RUN apt-get clean && \
     apt-get update && \
-    apt-get install -y libgmp10 hhvm && \
+    apt-get install -y libgmp10 hhvm hhvm-dbg hhvm-dev && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install php tools (composer / phpunit)
