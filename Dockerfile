@@ -26,7 +26,7 @@ RUN mkdir -p /var/www /var/run/hhvm /var/lib/hhvm /var/log/hhvm && \
     chown -R www-data:www-data /var/www /var/run/hhvm /var/lib/hhvm /var/log/hhvm /etc/hhvm
 
 
-VOLUME [ "/var/www","/var/lib/hhvm/sessions", "/etc/hhvm/php.ini" ]
+VOLUME [ "/var/www","/var/lib/hhvm/sessions" ]
 
 
 USER www-data
