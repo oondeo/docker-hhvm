@@ -21,7 +21,8 @@ else
     hhvm --hphp --target hhbc --output-dir "$OUT_DIR" --input-list "$FILE_LIST" -l3 -v AllVolatile=true    
     echo "hhvm.repo.authoritative = true" > /etc/hhvm/server.ini
 fi
-
+echo "include_path=.:$ROOT/include:/usr/share/php" >> /etc/hhvm/server.ini
+fi
 sleep 2
 kill $(cat /var/run/hhvm/pid)
 
