@@ -1,8 +1,13 @@
 #!/bin/dash
 
-source /etc/bashrc
-source ~/.bashrc
-
+if [ -f /etc/bashrc ]
+then 
+. /etc/bashrc
+fi
+if [ -f ~/.bashrc ]
+then
+. ~/.bashrc
+fi
 #echo "$IP $URL" >> /etc/hosts
 
 if [ "$DEVELOPMENT" != "false" ]
@@ -13,9 +18,13 @@ else
     echo "Initializing"
     #hhvm-repo-mode enable "$ROOT"
     FILE_LIST=$(mktemp)
-    find "/usr/share/php" -type f --name "*.php" > "$FILE_LIST"
-    find "$1" -type f --name "*.php" > "$FILE_LIST"
-    find "$1" -type f --name "*.hh" > "$FILE_LIST"
+    grep -r "^<?php" "/usr/share/php" | cut -f1 -d":" > "$FILE_LIST"
+    #find "$ROOT" -type f -name "*.php" >> "$FILE_LIST"
+    #find "$ROOT" -type f -name "*.hh" >> "$FILE_LIST"
+    #find "$ROOT" -type f -name "*.inc" >> "$FILE_LIST"
+    grep -r "^<?php" "$ROOT" | cut -f1 -d":" >> "$FILE_LIST"
+    grep -r "^<?hh" "$ROOT" | cut -f1 -d":" >> "$FILE_LIST"
+    #find "$ROOT" -type f  >> "$FILE_LIST"
 
     OUT_DIR="/var/run/hhvm"
     hhvm --hphp --target hhbc --output-dir "$OUT_DIR" --input-list "$FILE_LIST" -l3 -v AllVolatile=true    
@@ -24,7 +33,7 @@ fi
 echo "include_path=.:$ROOT/include:/usr/share/php" >> /etc/hhvm/server.ini
 
 sleep 2
-kill $(cat /var/run/hhvm/pid)
+#kill $(cat /var/run/hhvm/pid)
 
 echo "Starting server"
 if [ "$PORT" != "9000" ]
