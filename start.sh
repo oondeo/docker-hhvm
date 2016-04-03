@@ -22,7 +22,7 @@ else
     echo "hhvm.repo.authoritative = true" > /etc/hhvm/server.ini
 fi
 echo "include_path=.:$ROOT/include:/usr/share/php" >> /etc/hhvm/server.ini
-fi
+
 sleep 2
 kill $(cat /var/run/hhvm/pid)
 
