@@ -15,14 +15,14 @@ cd $ROOT
 sed -i '/include_path/d' /etc/hhvm/php.ini
 echo "include_path=\".:$ROOT/include:/usr/share/php\"" >> /etc/hhvm/php.ini
 
-if [ "$DEVELOPMENT" == "true" -o "$COMPILE" == "false" ]
+if [ "$DEVELOPMENT" = "true" ] || [ "$COMPILE" = "false" ]
 then
     #hhvm-repo-mode disable
     sed -i '/hhvm.repo.central.path/d' /etc/hhvm/php.ini
     sed -i '/hhvm.repo.authoritative/d' /etc/hhvm/php.ini
 else
     echo "Initializing"
-    echo "hhvm.repo.central.path = $OUT_DIR" >> /etc/hhvm/php.ini
+    echo "hhvm.repo.central.path = $OUT_DIR/hhvm.hhbc" >> /etc/hhvm/php.ini
     echo "hhvm.repo.authoritative = true" >> /etc/hhvm/php.ini
     #hhvm-repo-mode enable "$ROOT"
     FILE_LIST=$(mktemp)

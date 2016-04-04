@@ -1,5 +1,5 @@
 #!/bin/bash
-if [ "$DEVELOPMENT" == "true" -o "$COMPILE" == "false" ] 
+if [ "$DEVELOPMENT" == "true" ] || [ "$COMPILE" == "false" ] 
 then
 
 	echo "OK"

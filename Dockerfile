@@ -24,7 +24,8 @@ COPY php.ini /etc/hhvm/php.ini
 COPY start.sh /start.sh
 
 RUN mkdir -p /var/www /var/run/hhvm /var/lib/hhvm /var/log/hhvm && \
-    chown -R www-data:www-data /var/www /var/run/hhvm /var/lib/hhvm /var/log/hhvm /etc/hhvm
+    chown -R www-data:www-data /var/www /var/run/hhvm /var/lib/hhvm /var/log/hhvm /etc/hhvm && \
+    rm -f /etc/hhvm/server.ini
 
 
 VOLUME [ "/var/www","/var/lib/hhvm/sessions" ]
@@ -32,7 +33,7 @@ VOLUME [ "/var/www","/var/lib/hhvm/sessions" ]
 
 USER www-data
 
-ENV PORT 9000 DEVELOPMENT "false" COMPILE "true" ROOT "/var/www" COMPILE_OPTS "-l3 -v AllVolatile=true"
+ENV PORT=9000 DEVELOPMENT="false" COMPILE="true" ROOT="/var/www" COMPILE_OPTS="-l3 -v AllVolatile=true -v EnableEval=1"
 
 EXPOSE 9000 8080 9001
 
