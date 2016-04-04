@@ -7,9 +7,9 @@ RUN echo deb http://dl.hhvm.com/debian jessie main | tee /etc/apt/sources.list.d
 
 RUN apt-get clean && \
     apt-get update && \
-    apt-get install -y --no-install-recommends php-pear* php-mail php-mail-mime php-mail-mimedecode php-db php-http* php-auth* php-date php-mdb2 php-calendar php-soap php-xml* php-net* php-html* php-text* php-file  wget && \
+    apt-get install -y --no-install-recommends php-pear* php-mail php-mail-mime php-mail-mimedecode php-db php-http* php-auth* php-date php-mdb2 php-calendar php-soap php-xml* php-net-* php-html* php-text* php-file  wget && \
     apt-get install -y libgmp10 hhvm && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    apt-get remove -y php-nette && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install php tools (composer / phpunit)
 RUN cd /tmp && \
@@ -32,7 +32,7 @@ VOLUME [ "/var/www","/var/lib/hhvm/sessions" ]
 
 USER www-data
 
-ENV PORT 9000 DEVELOPMENT "false" COMPILE "true" ROOT "/var/www"
+ENV PORT 9000 DEVELOPMENT "false" COMPILE "true" ROOT "/var/www" COMPILE_OPTS "-l3 -v AllVolatile=true"
 
 EXPOSE 9000 8080 9001
 

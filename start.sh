@@ -1,5 +1,7 @@
 #!/bin/dash
 
+OUT_DIR="/var/run/hhvm"
+
 if [ -f /etc/bashrc ]
 then 
 . /etc/bashrc
@@ -9,13 +11,19 @@ then
 . ~/.bashrc
 fi
 #echo "$IP $URL" >> /etc/hosts
-echo "include_path=.:$ROOT/include:/usr/share/php" > /etc/hhvm/server.ini
-if [ "$DEVELOPMENT" == "true" || "$COMPILE" == "false" ]
+cd $ROOT
+sed -i '/include_path/d' /etc/hhvm/php.ini
+echo "include_path=\".:$ROOT/include:/usr/share/php\"" >> /etc/hhvm/php.ini
+
+if [ "$DEVELOPMENT" == "true" -o "$COMPILE" == "false" ]
 then
     #hhvm-repo-mode disable
-    echo "" > /etc/hhvm/server.ini
+    sed -i '/hhvm.repo.central.path/d' /etc/hhvm/php.ini
+    sed -i '/hhvm.repo.authoritative/d' /etc/hhvm/php.ini
 else
     echo "Initializing"
+    echo "hhvm.repo.central.path = $OUT_DIR" >> /etc/hhvm/php.ini
+    echo "hhvm.repo.authoritative = true" >> /etc/hhvm/php.ini
     #hhvm-repo-mode enable "$ROOT"
     FILE_LIST=$(mktemp)
     grep -r "^<?php" "/usr/share/php" | cut -f1 -d":" > "$FILE_LIST"
@@ -26,9 +34,10 @@ else
     grep -r "^<?hh" "$ROOT" | cut -f1 -d":" >> "$FILE_LIST"
     #find "$ROOT" -type f  >> "$FILE_LIST"
 
-    OUT_DIR="/var/run/hhvm"
-    hhvm --hphp --target hhbc --output-dir "$OUT_DIR" --input-list "$FILE_LIST" -l3 -v AllVolatile=true    
-    echo "hhvm.repo.authoritative = true" >> /etc/hhvm/server.ini
+
+
+    hhvm --hphp --target hhbc --output-dir "$OUT_DIR" --input-list "$FILE_LIST" $COMPILE_OPTS    
+    #echo "hhvm.repo.authoritative = true" >> /etc/hhvm/php.ini
 fi
 
 
