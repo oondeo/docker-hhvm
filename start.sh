@@ -9,8 +9,8 @@ then
 . ~/.bashrc
 fi
 #echo "$IP $URL" >> /etc/hosts
-
-if [ "$DEVELOPMENT" != "false" ]
+echo "include_path=.:$ROOT/include:/usr/share/php" > /etc/hhvm/server.ini
+if [ "$DEVELOPMENT" == "true" || "$COMPILE" == "false" ]
 then
     #hhvm-repo-mode disable
     echo "" > /etc/hhvm/server.ini
@@ -28,9 +28,9 @@ else
 
     OUT_DIR="/var/run/hhvm"
     hhvm --hphp --target hhbc --output-dir "$OUT_DIR" --input-list "$FILE_LIST" -l3 -v AllVolatile=true    
-    echo "hhvm.repo.authoritative = true" > /etc/hhvm/server.ini
+    echo "hhvm.repo.authoritative = true" >> /etc/hhvm/server.ini
 fi
-echo "include_path=.:$ROOT/include:/usr/share/php" >> /etc/hhvm/server.ini
+
 
 sleep 2
 #kill $(cat /var/run/hhvm/pid)

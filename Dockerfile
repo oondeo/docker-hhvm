@@ -32,9 +32,7 @@ VOLUME [ "/var/www","/var/lib/hhvm/sessions" ]
 
 USER www-data
 
-ENV PORT 9000
-ENV DEVELOPMENT "false"
-ENV ROOT "/var/www"
+ENV PORT 9000 DEVELOPMENT "false" COMPILE "true" ROOT "/var/www"
 
 EXPOSE 9000 8080 9001
 
